@@ -31,9 +31,8 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-var characterDummyList = [
-    Character(id: 0, name: "Alpha", status: "Alive", species: "Human"),
-    Character(id: 0, name: "Beta", status: "Alive", species: "Human"),
-    Character(id: 0, name: "Gamma", status: "Alive", species: "Human")
-]
+//var characterDummyList = [
+//    Character(id: 0, name: "Alpha", status: "Alive", species: "Human", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"),
+//    Character(id: 0, name: "Beta", status: "Alive", species: "Human", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
+//]
 

@@ -24,4 +24,13 @@ struct Character: Decodable, Identifiable {
     let name: String
     let status: String
     let species: String
+    let gender: String
+    let image: String
+    let origin: LocationObject
 }
+
+struct LocationObject: Decodable {
+    let name: String
+    let url: String
+}
+
