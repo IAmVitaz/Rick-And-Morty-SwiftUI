@@ -15,11 +15,16 @@ struct ContentView: View {
         NavigationView {
             List(networkManager.characters) {character in
                 CharacterCell(character: character)
+                    .onAppear {
+                        networkManager.loadMoreContentIfNeeded(currentItem: character)
+                    }
             }
             .navigationTitle(Text("Characters"))
-        }
-        .onAppear {
-            networkManager.fetchData()
+           
+            if networkManager.isLoadingPage {
+                ProgressView()
+            }
+
         }
     }
     

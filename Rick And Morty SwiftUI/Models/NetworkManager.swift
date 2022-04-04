@@ -10,9 +10,34 @@ import Foundation
 class NetworkManager: ObservableObject {
     
     @Published var characters = [Character]()
+    @Published var isLoadingPage = false
+    private var currentPage = 1
+    private var canLoadMorePages = true
     
-    func fetchData() {
-        if let url = URL(string: "https://rickandmortyapi.com/api/character") {
+    init() {
+      loadMoreContent()
+    }
+
+    func loadMoreContentIfNeeded(currentItem item: Character?) {
+        guard let item = item else {
+            loadMoreContent()
+            return
+        }
+        
+        let thresholdIndex = characters.index(characters.endIndex, offsetBy: -5)
+        if characters.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
+            loadMoreContent()
+        }
+    }
+    
+    private func loadMoreContent() {
+        guard !isLoadingPage && canLoadMorePages else {
+            return
+        }
+        
+        isLoadingPage = true
+        
+        if let url = URL(string: "https://rickandmortyapi.com/api/character?page=\(currentPage)") {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { data, response, error in
                 if error == nil {
@@ -20,8 +45,12 @@ class NetworkManager: ObservableObject {
                     if let safeData = data {
                         do {
                             let results = try decoder.decode(CharacterResponceResult.self, from: safeData)
-                            DispatchQueue.main.async {  
-                                self.characters = results.results
+                            DispatchQueue.main.async {
+                                self.characters += results.results
+                                
+                                self.canLoadMorePages = results.info.next != nil
+                                self.isLoadingPage = false
+                                self.currentPage += 1
                             }
                         } catch {
                             print(error)
