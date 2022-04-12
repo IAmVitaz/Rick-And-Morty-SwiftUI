@@ -37,7 +37,7 @@ class NetworkManager: ObservableObject {
         
         isLoadingPage = true
         
-        if let url = URL(string: "https://rickandmortyapi.com/api/character?page=\(currentPage)") {
+        if let url = URL(string: "\(CharacterSearchOptions.generateCharacterURL(currentPage: currentPage))") {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { data, response, error in
                 if error == nil {
@@ -60,6 +60,15 @@ class NetworkManager: ObservableObject {
             }
             task.resume()
         }
+    }
+    
+    func reloadData() {
+        currentPage = 1
+        characters = []
+        canLoadMorePages = true
+        isLoadingPage = false
+        
+        loadMoreContent()
     }
     
 }

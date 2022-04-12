@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CharactersListView: View {
     
     @ObservedObject var networkManager = NetworkManager()
+    @State private var showingSearch = false
     
     var body: some View {
         NavigationView {
@@ -20,6 +21,18 @@ struct ContentView: View {
                     }
             }
             .navigationTitle(Text("Characters"))
+            .navigationBarItems(trailing:
+                Button(action: {
+                    showingSearch.toggle()
+                    print("Edit button pressed...")
+                }) {
+                    Text("Filters")
+//                    Image(systemName: "pencil").imageScale(.large)
+                }
+                    .sheet(isPresented: $showingSearch) {
+                CharacterSearchView(networkManager: networkManager)
+                }
+            )
            
             if networkManager.isLoadingPage {
                 ProgressView()
@@ -30,14 +43,8 @@ struct ContentView: View {
     
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct CharactersListView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        CharactersListView()
     }
 }
-
-//var characterDummyList = [
-//    Character(id: 0, name: "Alpha", status: "Alive", species: "Human", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"),
-//    Character(id: 0, name: "Beta", status: "Alive", species: "Human", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
-//]
-
