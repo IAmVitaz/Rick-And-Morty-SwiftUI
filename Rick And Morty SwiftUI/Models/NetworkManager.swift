@@ -11,6 +11,7 @@ class NetworkManager: ObservableObject {
     
     @Published var characters = [Character]()
     @Published var isLoadingPage = false
+    @Published var isDataMissing = false
     private var currentPage = 1
     private var canLoadMorePages = true
     
@@ -51,9 +52,13 @@ class NetworkManager: ObservableObject {
                                 self.canLoadMorePages = results.info.next != nil
                                 self.isLoadingPage = false
                                 self.currentPage += 1
+                                self.isDataMissing = false
                             }
                         } catch {
                             print(error)
+                            DispatchQueue.main.async {
+                                self.isDataMissing = true
+                            }
                         }
                     }
                 }

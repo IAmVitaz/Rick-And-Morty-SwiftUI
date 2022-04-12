@@ -33,7 +33,12 @@ struct CharactersListView: View {
                 CharacterSearchView(networkManager: networkManager)
                 }
             )
-           
+            .overlay(Group {
+                if networkManager.isDataMissing {
+                    Text("No characters matching parameters found. \nPlease adjust the filters.")
+                        .multilineTextAlignment(.center)
+                }
+            })
             if networkManager.isLoadingPage {
                 ProgressView()
             }
