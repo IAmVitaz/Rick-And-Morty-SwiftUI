@@ -94,5 +94,5 @@ func getGenderColor(gender: String) -> Color {
     }
 }
 
-var character = Character(id: 0, name: "Alpha", status: "Alive", species: "Human", gender: "Male", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", origin: LocationObject(name: "Earth", url: "String"))
+var character = Character(id: 0, name: "Alpha", status: "Alive", species: "Human", gender: "Male", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", origin: LocationObject(name: "Earth", url: "String"), location: LocationObject(name: "Moon", url: "String"))
 

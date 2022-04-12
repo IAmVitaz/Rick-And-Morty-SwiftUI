@@ -27,6 +27,7 @@ struct Character: Decodable, Identifiable {
     let gender: String
     let image: String
     let origin: LocationObject
+    let location: LocationObject
 }
 
 struct LocationObject: Decodable {

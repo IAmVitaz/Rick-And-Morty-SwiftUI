@@ -15,10 +15,13 @@ struct CharactersListView: View {
     var body: some View {
         NavigationView {
             List(networkManager.characters) {character in
-                CharacterCell(character: character)
-                    .onAppear {
-                        networkManager.loadMoreContentIfNeeded(currentItem: character)
-                    }
+                NavigationLink(destination: CharacterDetailsView(character: character)) {
+                    CharacterCell(character: character)
+                        .onAppear {
+                            networkManager.loadMoreContentIfNeeded(currentItem: character)
+                        }
+                }
+
             }
             .navigationTitle(Text("Characters"))
             .navigationBarItems(trailing:
