@@ -104,9 +104,38 @@ struct CharacterDetailsView: View {
                         }
                         Divider()
                     }
+                    
+                    Group {
+                        VStack {
+                            Text("Appeared in:")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading)
+                            ForEach(character.getEpisodesArray()) { episodeObject in
+                                Section(header: Text(episodeObject.season)) {
+                                    FlexibleView(
+                                        data: episodeObject.episodes,
+                                        spacing: 8,
+                                        alignment: .leading
+                                    ) { episode in
+                                        Text(verbatim: episode.episodeInSeason)
+                                            .padding(8)
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 16)
+                                                    .fill(Color.blue.opacity(0.2))
+                                            )
+                                    }
+                                    .padding(.horizontal, 16)
+                                }
+                            }
+                        }
+
+                    }
+                    
                 }
             }
+            
         }
+        
     }
     
     struct CharacterDetailsView_Previews: PreviewProvider {
@@ -119,7 +148,8 @@ struct CharacterDetailsView: View {
                 gender: "Male",
                 image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
                 origin: LocationObject(name: "Citadel of Ricks", url: "https://rickandmortyapi.com/api/location/3"),
-                location: LocationObject(name: "Earth (C-137)", url: "https://rickandmortyapi.com/api/location/1")
+                location: LocationObject(name: "Earth (C-137)", url: "https://rickandmortyapi.com/api/location/1"),
+                episode: ["https://rickandmortyapi.com/api/episode/1", "https://rickandmortyapi.com/api/episode/2"]
             )
             
             CharacterDetailsView(character: characterForPreview)
