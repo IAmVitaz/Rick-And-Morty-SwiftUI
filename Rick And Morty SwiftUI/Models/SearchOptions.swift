@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct CharacterSearchOptions {
+struct SearchOptions {
     
-    static let characterURL = "https://rickandmortyapi.com/api/character"
+    static let baseURL = "https://rickandmortyapi.com/api/"
     
+    // character parameters:
     static var genderSelected = 0
     static var statusSelected = 0
     static var characterName = ""
@@ -29,9 +30,23 @@ struct CharacterSearchOptions {
         "unknown"
     ]
     
+    // episode parameters:
+    static var episodeName = ""
+    static var seasonSelected = 0
+    static let season = [
+        "All",
+        "Season 1",
+        "Season 2",
+        "Season 3",
+        "Season 4",
+        "Season 5",
+        "Season 6"
+    ]
+    
+    
     static func generateCharacterURL(currentPage: Int) -> String {
         var isFirstParameter = true
-        var adjustedURL = characterURL
+        var adjustedURL = baseURL + "character"
         if genderSelected != 0 {
             adjustedURL += "?gender=\(gender[genderSelected].lowercased())"
             isFirstParameter = false
@@ -42,6 +57,24 @@ struct CharacterSearchOptions {
         }
         if characterName != "" {
             adjustedURL += "\(isFirstParameter ? "?" : "&")name=\(characterName.lowercased())"
+            isFirstParameter = false
+        }
+        
+        adjustedURL += "\(isFirstParameter ? "?" : "&")page=\(currentPage)"
+
+        return adjustedURL
+    }
+    
+    static func generateEpisodeURL(currentPage: Int) -> String {
+        var isFirstParameter = true
+        var adjustedURL = baseURL + "episode"
+        if seasonSelected != 0 {
+            let seasonCode = "S0\(seasonSelected)"
+            adjustedURL += "?episode=\(seasonCode)"
+            isFirstParameter = false
+        }
+        if episodeName != "" {
+            adjustedURL += "\(isFirstParameter ? "?" : "&")name=\(episodeName.lowercased())"
             isFirstParameter = false
         }
         

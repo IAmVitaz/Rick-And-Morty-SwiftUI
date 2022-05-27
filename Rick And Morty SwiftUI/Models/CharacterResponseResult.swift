@@ -9,7 +9,7 @@ import Foundation
 
 struct CharacterResponceResult: Decodable {
     let info: Info
-    let results: [Character]
+    let results: [GeneralCharacter]
 }
 
 struct Info: Decodable {
@@ -19,7 +19,7 @@ struct Info: Decodable {
     let prev: String?
 }
 
-struct Character: Decodable, Identifiable {
+struct GeneralCharacter: Decodable, Identifiable {
     let id: Int
     let name: String
     let status: String

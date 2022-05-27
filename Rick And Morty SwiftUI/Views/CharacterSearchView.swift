@@ -10,15 +10,15 @@ import SwiftUI
 struct CharacterSearchView: View {
     
     @State private var textInput = ""
-    @State private var selectedGenderIndex = CharacterSearchOptions.genderSelected
-    @State private var selectedStatusIndex = CharacterSearchOptions.statusSelected
+    @State private var selectedGenderIndex = SearchOptions.genderSelected
+    @State private var selectedStatusIndex = SearchOptions.statusSelected
 //    @State private var isOn = false
-    @State private var characterName = CharacterSearchOptions.characterName
+    @State private var characterName = SearchOptions.characterName
     
-    let networkManager: NetworkManager
+    let networkManager: CharacterNetworkManager
     
-    let genders = CharacterSearchOptions.gender
-    let status = CharacterSearchOptions.status
+    let genders = SearchOptions.gender
+    let status = SearchOptions.status
     
     @Environment(\.dismiss) var dismiss
     
@@ -75,20 +75,20 @@ struct CharacterSearchView: View {
     }
     
     private func updateSearchParams() {
-        CharacterSearchOptions.genderSelected = selectedGenderIndex
-        CharacterSearchOptions.statusSelected = selectedStatusIndex
-        CharacterSearchOptions.characterName = characterName
+        SearchOptions.genderSelected = selectedGenderIndex
+        SearchOptions.statusSelected = selectedStatusIndex
+        SearchOptions.characterName = characterName
     }
     
     private func resetSearchParams() {
-        CharacterSearchOptions.genderSelected = 0
-        CharacterSearchOptions.statusSelected = 0
-        CharacterSearchOptions.characterName = ""
+        SearchOptions.genderSelected = 0
+        SearchOptions.statusSelected = 0
+        SearchOptions.characterName = ""
     }
 }
 
 struct CharacterSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        CharacterSearchView(networkManager: NetworkManager())
+        CharacterSearchView(networkManager: CharacterNetworkManager())
     }
 }

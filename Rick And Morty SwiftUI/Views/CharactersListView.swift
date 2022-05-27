@@ -9,16 +9,16 @@ import SwiftUI
 
 struct CharactersListView: View {
     
-    @ObservedObject var networkManager = NetworkManager()
+    @ObservedObject var characterNetworkManager = CharacterNetworkManager()
     @State private var showingSearch = false
     
     var body: some View {
         NavigationView {
-            List(networkManager.characters) {character in
+            List(characterNetworkManager.characters) {character in
                 NavigationLink(destination: CharacterDetailsView(character: character)) {
                     CharacterCell(character: character)
                         .onAppear {
-                            networkManager.loadMoreContentIfNeeded(currentItem: character)
+                            characterNetworkManager.loadMoreContentIfNeeded(currentItem: character)
                         }
                 }
 
@@ -33,16 +33,16 @@ struct CharactersListView: View {
 //                    Image(systemName: "pencil").imageScale(.large)
                 }
                     .sheet(isPresented: $showingSearch) {
-                CharacterSearchView(networkManager: networkManager)
+                CharacterSearchView(networkManager: characterNetworkManager)
                 }
             )
             .overlay(Group {
-                if networkManager.isDataMissing {
+                if characterNetworkManager.isDataMissing {
                     Text("No characters matching parameters found. \nPlease adjust the filters.")
                         .multilineTextAlignment(.center)
                 }
             })
-            if networkManager.isLoadingPage {
+            if characterNetworkManager.isLoadingPage {
                 ProgressView()
             }
 

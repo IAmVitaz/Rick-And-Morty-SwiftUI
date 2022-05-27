@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CharacterDetailsView: View {
     
-    let character: Character
+    let character: GeneralCharacter
     
     var body: some View {
         ScrollView(.vertical) {
@@ -140,7 +140,7 @@ struct CharacterDetailsView: View {
     
     struct CharacterDetailsView_Previews: PreviewProvider {
         static var previews: some View {
-            var characterForPreview = Character(
+            var characterForPreview = GeneralCharacter(
                 id: 1,
                 name: "Rick Sanchez",
                 status: "Alive",
