@@ -36,4 +36,20 @@ struct GeneralEpisode: Decodable, Identifiable {
         
         return listOfCharacters
     }
+    
+    func getSeason() -> String {
+        let startIndex = episode.index(episode.startIndex, offsetBy: 1)
+        let endIndex = episode.index(episode.startIndex, offsetBy: 3)
+        let range = startIndex..<endIndex
+        let mySubstring = episode[range]
+        return String(mySubstring)
+    }
+    
+    func getEpisode() -> String {
+        let startIndex = episode.index(episode.startIndex, offsetBy: 4)
+        let endIndex = episode.index(episode.startIndex, offsetBy: 6)
+        let range = startIndex..<endIndex
+        let substring = episode[range]
+        return String(substring)
+    }
 }

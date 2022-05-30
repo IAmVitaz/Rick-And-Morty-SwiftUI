@@ -68,7 +68,7 @@ struct GeneralCharacter: Decodable, Identifiable {
                         episodeObjects[index] = newElement
                     }
                 }
-                
+                 
             }
         }
         return episodeObjects

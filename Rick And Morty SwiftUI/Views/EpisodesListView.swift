@@ -8,8 +8,44 @@
 import SwiftUI
 
 struct EpisodesListView: View {
+    
+    @ObservedObject var episodeNetworkManager = EpisodeNetworkManager()
+    @State private var showingSearch = false
+
     var body: some View {
-        Text("Episodes!")
+        NavigationView {
+            List(episodeNetworkManager.episodes) {episode in
+                NavigationLink(destination: EpisodeDetailsView(episode: episode)) {
+                    EpisodeCell(episode: episode)
+                        .onAppear {
+                            episodeNetworkManager.loadMoreContentIfNeeded(currentItem: episode)
+                        }
+                }
+
+            }
+            .navigationTitle(Text("Episodes"))
+            .navigationBarItems(trailing:
+                Button(action: {
+                    showingSearch.toggle()
+                    print("Episodes filter button pressed...")
+                }) {
+                    Text("Filters")
+//                    Image(systemName: "pencil").imageScale(.large)
+                }
+                    .sheet(isPresented: $showingSearch) {
+                EpisodeSearchView(networkManager: episodeNetworkManager)
+                }
+            )
+            .overlay(Group {
+                if episodeNetworkManager.isDataMissing {
+                    Text("No episodes matching parameters found. \nPlease adjust the filters.")
+                        .multilineTextAlignment(.center)
+                }
+            })
+            if episodeNetworkManager.isLoadingPage {
+                ProgressView()
+            }
+        }
     }
 }
 
