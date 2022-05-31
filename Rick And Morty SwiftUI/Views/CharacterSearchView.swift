@@ -70,7 +70,7 @@ struct CharacterSearchView: View {
                     }
                 }
             }
-            .navigationTitle(Text("Edit Filters"))
+            .navigationTitle(Text("Character Filters"))
         }
     }
     

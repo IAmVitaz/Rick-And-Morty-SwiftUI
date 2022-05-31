@@ -33,14 +33,13 @@ struct SearchOptions {
     // episode parameters:
     static var episodeName = ""
     static var seasonSelected = 0
-    static let season = [
+    static let seasons = [
         "All",
         "Season 1",
         "Season 2",
         "Season 3",
         "Season 4",
-        "Season 5",
-        "Season 6"
+        "Season 5"
     ]
     
     
