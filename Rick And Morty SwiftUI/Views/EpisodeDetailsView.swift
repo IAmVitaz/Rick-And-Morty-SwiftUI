@@ -12,7 +12,89 @@ struct EpisodeDetailsView: View {
     let episode: GeneralEpisode
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(.vertical) {
+            Image("season_\(episode.getSeason())")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+            VStack {
+                Group {
+                    HStack() {
+                        Text("Name:")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                        Text("\(episode.name)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } .padding(.top)
+                    Divider()
+                }
+                Group {
+                    HStack() {
+                        Text("Season:")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                        Text("\(episode.getSeason())")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    Divider()
+                }
+                Group {
+                    HStack() {
+                        Text("Episode:")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                        Text("\(episode.getEpisode())")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    Divider()
+                }
+                Group {
+                    HStack() {
+                        Text("Episode overall:")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                        Text("\(episode.getOverallEpisode())")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    Divider()
+                }
+                Group {
+                    HStack() {
+                        Text("Air date:")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                        Text("\(episode.air_date)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    Divider()
+                }
+                Group {
+                    VStack {
+                        Text("Characters:")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                        ForEach(character.getEpisodesArray()) { episodeObject in
+                            Section(header: Text(episodeObject.season)) {
+                                FlexibleView(
+                                    data: episodeObject.episodes,
+                                    spacing: 8,
+                                    alignment: .leading
+                                ) { episode in
+                                    Text(verbatim: episode.episodeInSeason)
+                                        .padding(8)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .fill(Color.blue.opacity(0.2))
+                                        )
+                                }
+                                .padding(.horizontal, 16)
+                            }
+                        }
+                    }
+
+                }
+                
+            }
+        }
     }
 }
 

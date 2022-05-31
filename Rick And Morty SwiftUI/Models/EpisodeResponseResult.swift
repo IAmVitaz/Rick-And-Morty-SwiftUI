@@ -52,4 +52,12 @@ struct GeneralEpisode: Decodable, Identifiable {
         let substring = episode[range]
         return String(substring)
     }
+    
+    func getOverallEpisode() -> String {
+        if id < 10 {
+            return "0\(id)"
+        }else {
+            return String(id)
+        }
+    }
 }
