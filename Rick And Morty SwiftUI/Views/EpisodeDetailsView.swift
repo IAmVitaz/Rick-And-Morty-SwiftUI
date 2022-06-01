@@ -10,6 +10,12 @@ import SwiftUI
 struct EpisodeDetailsView: View {
     
     let episode: GeneralEpisode
+    @ObservedObject var characterNetworkManager : CharacterNetworkManager
+
+    init(episode: GeneralEpisode) {
+        self.episode = episode
+        characterNetworkManager = CharacterNetworkManager(list: episode.getListOfCharacters())
+    }
     
     var body: some View {
         ScrollView(.vertical) {
@@ -72,22 +78,9 @@ struct EpisodeDetailsView: View {
                         Text("Characters:")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading)
-                        ForEach(character.getEpisodesArray()) { episodeObject in
-                            Section(header: Text(episodeObject.season)) {
-                                FlexibleView(
-                                    data: episodeObject.episodes,
-                                    spacing: 8,
-                                    alignment: .leading
-                                ) { episode in
-                                    Text(verbatim: episode.episodeInSeason)
-                                        .padding(8)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 16)
-                                                .fill(Color.blue.opacity(0.2))
-                                        )
-                                }
-                                .padding(.horizontal, 16)
-                            }
+                        List(characterNetworkManager.characters) { character in
+                            Text(character.name)
+//                            CharacterCell(character: character)
                         }
                     }
 

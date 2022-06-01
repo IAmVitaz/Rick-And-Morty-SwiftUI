@@ -64,6 +64,12 @@ struct SearchOptions {
         return adjustedURL
     }
     
+    static func generateCharacterURLForListOfCharacters(listString: String) -> String {
+        var adjustedURL = baseURL + "character/"
+        adjustedURL += listString
+        return adjustedURL
+    }
+    
     static func generateEpisodeURL(currentPage: Int) -> String {
         var isFirstParameter = true
         var adjustedURL = baseURL + "episode"

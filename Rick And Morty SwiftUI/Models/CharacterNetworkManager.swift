@@ -14,9 +14,15 @@ class CharacterNetworkManager: ObservableObject {
     @Published var isDataMissing = false
     private var currentPage = 1
     private var canLoadMorePages = true
+
     
     init() {
       loadMoreContent()
+    }
+    
+    init(list: String) {
+        let customUrl = SearchOptions.generateCharacterURLForListOfCharacters(listString: list)
+        loadMoreContent(customUrl: customUrl)
     }
 
     func loadMoreContentIfNeeded(currentItem item: GeneralCharacter?) {
@@ -31,39 +37,70 @@ class CharacterNetworkManager: ObservableObject {
         }
     }
     
-    private func loadMoreContent() {
+    private func loadMoreContent(customUrl: String = "") {
         guard !isLoadingPage && canLoadMorePages else {
             return
         }
         
         isLoadingPage = true
         
-        if let url = URL(string: "\(SearchOptions.generateCharacterURL(currentPage: currentPage))") {
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { data, response, error in
-                if error == nil {
-                    let decoder = JSONDecoder()
-                    if let safeData = data {
-                        do {
-                            let results = try decoder.decode(CharacterResponceResult.self, from: safeData)
-                            DispatchQueue.main.async {
-                                self.characters += results.results
-                                
-                                self.canLoadMorePages = results.info.next != nil
-                                self.isLoadingPage = false
-                                self.currentPage += 1
-                                self.isDataMissing = false
-                            }
-                        } catch {
-                            print(error)
-                            DispatchQueue.main.async {
-                                self.isDataMissing = true
+        let isCustomUrlUsed = customUrl != ""
+        
+        if isCustomUrlUsed {
+            if let url = URL(string: customUrl) {
+                let session = URLSession(configuration: .default)
+                let task = session.dataTask(with: url) { data, response, error in
+                    if error == nil {
+                        let decoder = JSONDecoder()
+                        if let safeData = data {
+                            do {
+                                let results = try decoder.decode([GeneralCharacter].self, from: safeData)
+                                DispatchQueue.main.async {
+                                    self.characters += results
+                                    
+                                    self.canLoadMorePages = false
+                                    self.isLoadingPage = false
+                                    self.isDataMissing = false
+                                }
+                            } catch {
+                                print(error)
+                                DispatchQueue.main.async {
+                                    self.isDataMissing = true
+                                }
                             }
                         }
                     }
                 }
+                task.resume()
             }
-            task.resume()
+        } else {
+            if let url = URL(string: "\(SearchOptions.generateCharacterURL(currentPage: currentPage))") {
+                let session = URLSession(configuration: .default)
+                let task = session.dataTask(with: url) { data, response, error in
+                    if error == nil {
+                        let decoder = JSONDecoder()
+                        if let safeData = data {
+                            do {
+                                let results = try decoder.decode(CharacterResponceResult.self, from: safeData)
+                                DispatchQueue.main.async {
+                                    self.characters += results.results
+                                    
+                                    self.canLoadMorePages = results.info.next != nil
+                                    self.isLoadingPage = false
+                                    self.currentPage += 1
+                                    self.isDataMissing = false
+                                }
+                            } catch {
+                                print(error)
+                                DispatchQueue.main.async {
+                                    self.isDataMissing = true
+                                }
+                            }
+                        }
+                    }
+                }
+                task.resume()
+            }
         }
     }
     
