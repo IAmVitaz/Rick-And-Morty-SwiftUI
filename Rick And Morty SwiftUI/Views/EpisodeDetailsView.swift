@@ -10,12 +10,9 @@ import SwiftUI
 struct EpisodeDetailsView: View {
     
     let episode: GeneralEpisode
-    @ObservedObject var characterNetworkManager : CharacterNetworkManager
-
-    init(episode: GeneralEpisode) {
-        self.episode = episode
-        characterNetworkManager = CharacterNetworkManager(list: episode.getListOfCharacters())
-    }
+    @ObservedObject var characterNetworkManager = CharacterNetworkManager()
+    
+    @State private var characterInEpisodeSelected: GeneralCharacter? = nil
     
     var body: some View {
         ScrollView(.vertical) {
@@ -78,15 +75,49 @@ struct EpisodeDetailsView: View {
                         Text("Characters:")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading)
-                        List(characterNetworkManager.characters) { character in
-                            Text(character.name)
-//                            CharacterCell(character: character)
-                        }
-                    }
+                        
+                        LazyVGrid(
+                            columns: [
+                                GridItem(.flexible()), GridItem(.flexible())
+                            ],
+                            alignment: .center,
+                            spacing: 10,
+                            pinnedViews: [],
+                            content: {
+                                ForEach (characterNetworkManager.characters) { character in
+                                    Button(action: {
+                                        self.characterInEpisodeSelected = character
+                                    }) {
+                                        VStack {
+                                            AsyncImage(url: URL(string: character.image)) { image in image
+                                                        .resizable()
+                                                        .scaledToFill()
+                                                } placeholder: {
+                                                    ProgressView()
+                                                }
+                                                .frame(width: 70, height: 70)
+                                                .background(Color.gray)
+                                                .clipShape(Circle())
+                                                .padding(.top)
+                                            
+                                            Text(character.name)
+                                                .foregroundColor(.black)
 
+                                        }
+                                    }
+                                    .sheet(item: self.$characterInEpisodeSelected, content: { character in
+                                        CharacterDetailsView(character: character)
+                                    })
+                                }
+                            })
+                                                
+                    }
                 }
                 
             }
+        }
+        .onAppear {
+            characterNetworkManager.loadContentForSelectedUsers(list: episode.getListOfCharacters())
         }
     }
 }

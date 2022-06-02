@@ -47,6 +47,9 @@ struct CharactersListView: View {
             }
 
         }
+        .onAppear {
+            characterNetworkManager.loadContent()
+        }
     }
     
 }

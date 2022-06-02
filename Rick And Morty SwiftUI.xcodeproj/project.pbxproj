@@ -86,6 +86,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E5A628BA28492C4F00BEDFA2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E5A9885327F3AFAC002E854B /* CharacterNetworkManager.swift */,
+				E5A628B228418B0700BEDFA2 /* EpisodeNetworkManager.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		E5A9883527F3AC48002E854B = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +116,7 @@
 		E5A9884027F3AC48002E854B /* Rick And Morty SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				E5A628BA28492C4F00BEDFA2 /* ViewModel */,
 				E5A9885027F3ADC1002E854B /* Views */,
 				E5A9884F27F3ADB7002E854B /* Models */,
 				E5A9884127F3AC48002E854B /* Rick_And_Morty_SwiftUIApp.swift */,
@@ -130,8 +140,6 @@
 			children = (
 				E5A9885127F3AE40002E854B /* CharacterResponseResult.swift */,
 				E5F8F99D2816169100B53175 /* EpisodeResponseResult.swift */,
-				E5A9885327F3AFAC002E854B /* CharacterNetworkManager.swift */,
-				E5A628B228418B0700BEDFA2 /* EpisodeNetworkManager.swift */,
 				E5F8F98927FBA66B00B53175 /* SearchOptions.swift */,
 			);
 			path = Models;

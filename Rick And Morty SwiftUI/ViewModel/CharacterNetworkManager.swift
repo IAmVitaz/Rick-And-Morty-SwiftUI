@@ -14,17 +14,16 @@ class CharacterNetworkManager: ObservableObject {
     @Published var isDataMissing = false
     private var currentPage = 1
     private var canLoadMorePages = true
-
     
-    init() {
-      loadMoreContent()
+    func loadContent() {
+        loadMoreContent()
     }
     
-    init(list: String) {
+    func loadContentForSelectedUsers(list: String) {
         let customUrl = SearchOptions.generateCharacterURLForListOfCharacters(listString: list)
         loadMoreContent(customUrl: customUrl)
     }
-
+    
     func loadMoreContentIfNeeded(currentItem item: GeneralCharacter?) {
         guard let item = item else {
             loadMoreContent()
@@ -57,7 +56,7 @@ class CharacterNetworkManager: ObservableObject {
                                 let results = try decoder.decode([GeneralCharacter].self, from: safeData)
                                 DispatchQueue.main.async {
                                     self.characters += results
-                                    
+
                                     self.canLoadMorePages = false
                                     self.isLoadingPage = false
                                     self.isDataMissing = false
