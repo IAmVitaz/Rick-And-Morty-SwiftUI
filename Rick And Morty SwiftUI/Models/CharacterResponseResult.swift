@@ -29,6 +29,28 @@ struct GeneralCharacter: Decodable, Identifiable {
     let origin: LocationObject
     let location: LocationObject
     let episode: [String]
+        
+    func getListOfEpisodes() -> String {
+        var listOfEpisodes = ""
+        var episodesProceeded = 0
+        let allowedCharset = CharacterSet.decimalDigits
+        
+        for epis in episode {
+            if let filteredEpisodeId = Int(String(epis.unicodeScalars.filter(allowedCharset.contains))) {
+                listOfEpisodes += String(filteredEpisodeId)
+                episodesProceeded += 1
+                if episodesProceeded < episode.count {
+                    listOfEpisodes += ","
+                }
+            }
+        }
+        
+        return listOfEpisodes
+    }
+    
+    private func getSeasonEpisodePair(episodeOverall: String) -> (String, String) {
+        return ("x", "y")
+    }
     
     func getEpisodesArray() -> [EpisodeObject] {
         var episodeObjects: [EpisodeObject] = []

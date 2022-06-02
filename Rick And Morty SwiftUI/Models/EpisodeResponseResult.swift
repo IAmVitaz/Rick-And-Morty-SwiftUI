@@ -18,6 +18,43 @@ struct GeneralEpisode: Decodable, Identifiable {
     let air_date: String
     let episode: String
     let characters: [String]
+    let season: String
+    let episodeInSeason: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case air_date
+        case episode
+        case characters
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try values.decode(Int.self, forKey: .id)
+        name = try values.decode(String.self, forKey: .name)
+        air_date = try values.decode(String.self, forKey: .air_date)
+        
+        let episodeCode = try values.decode(String.self, forKey: .episode)
+        episode = episodeCode
+        characters = try values.decode([String].self, forKey: .characters)
+        
+        season = getSeason(episodeCode: episodeCode)
+        episodeInSeason = getEpisode(episodeCode: episodeCode)
+    }
+    
+    init(id: Int, name: String, air_date: String, episode: String, characters: [String], season: String, episodeInSeason: String) {
+        self.id = id
+        self.name = name
+        self.air_date = air_date
+        self.episode = episode
+        self.characters = characters
+        self.season = season
+        self.episodeInSeason = episodeInSeason
+
+    }
+
     
     func getListOfCharacters() -> String {
         var listOfCharacters = ""
@@ -37,22 +74,6 @@ struct GeneralEpisode: Decodable, Identifiable {
         return listOfCharacters
     }
     
-    func getSeason() -> String {
-        let startIndex = episode.index(episode.startIndex, offsetBy: 1)
-        let endIndex = episode.index(episode.startIndex, offsetBy: 3)
-        let range = startIndex..<endIndex
-        let mySubstring = episode[range]
-        return String(mySubstring)
-    }
-    
-    func getEpisode() -> String {
-        let startIndex = episode.index(episode.startIndex, offsetBy: 4)
-        let endIndex = episode.index(episode.startIndex, offsetBy: 6)
-        let range = startIndex..<endIndex
-        let substring = episode[range]
-        return String(substring)
-    }
-    
     func getOverallEpisode() -> String {
         if id < 10 {
             return "0\(id)"
@@ -60,4 +81,20 @@ struct GeneralEpisode: Decodable, Identifiable {
             return String(id)
         }
     }
+}
+
+func getSeason(episodeCode: String) -> String {
+    let startIndex = episodeCode.index(episodeCode.startIndex, offsetBy: 1)
+    let endIndex = episodeCode.index(episodeCode.startIndex, offsetBy: 3)
+    let range = startIndex..<endIndex
+    let mySubstring = episodeCode[range]
+    return String(mySubstring)
+}
+
+func getEpisode(episodeCode: String) -> String {
+    let startIndex = episodeCode.index(episodeCode.startIndex, offsetBy: 4)
+    let endIndex = episodeCode.index(episodeCode.startIndex, offsetBy: 6)
+    let range = startIndex..<endIndex
+    let substring = episodeCode[range]
+    return String(substring)
 }

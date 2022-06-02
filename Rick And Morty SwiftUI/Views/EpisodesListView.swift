@@ -46,6 +46,9 @@ struct EpisodesListView: View {
                 ProgressView()
             }
         }
+        .onAppear{
+            episodeNetworkManager.loadContent()
+        }
     }
 }
 

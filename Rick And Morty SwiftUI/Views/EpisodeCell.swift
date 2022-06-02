@@ -22,11 +22,11 @@ struct EpisodeCell: View {
             HStack(alignment: .firstTextBaseline) {
                 Text("Season:")
                     .foregroundColor(.gray)
-                Text(episode.getSeason())
+                Text(episode.season)
                 Spacer()
                 Text("Episode:")
                     .foregroundColor(.gray)
-                Text(episode.getEpisode())
+                Text(episode.episode)
                     .padding(.trailing)
             }
         }
@@ -64,5 +64,7 @@ private let testEpisode = GeneralEpisode(
         "https://rickandmortyapi.com/api/character/394",
         "https://rickandmortyapi.com/api/character/395",
         "https://rickandmortyapi.com/api/character/435"
-    ]
+    ],
+    season: "1",
+    episodeInSeason: "1"
 )

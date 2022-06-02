@@ -10,6 +10,7 @@ import SwiftUI
 struct CharacterDetailsView: View {
     
     let character: GeneralCharacter
+    @ObservedObject var episodeNetworkManager = EpisodeNetworkManager()
     
     var body: some View {
         ScrollView(.vertical) {
@@ -133,8 +134,11 @@ struct CharacterDetailsView: View {
                     
                 }
             }
-            
+            .onAppear {
+                episodeNetworkManager.loadContentForSelectedEpisodes(list: character.getListOfEpisodes())
+            }
         }
+
         
     }
     

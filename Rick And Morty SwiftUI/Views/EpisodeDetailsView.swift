@@ -16,7 +16,7 @@ struct EpisodeDetailsView: View {
     
     var body: some View {
         ScrollView(.vertical) {
-            Image("season_\(episode.getSeason())")
+            Image("season_\(episode.season)")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
             VStack {
@@ -35,7 +35,7 @@ struct EpisodeDetailsView: View {
                         Text("Season:")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading)
-                        Text("\(episode.getSeason())")
+                        Text("\(episode.season)")
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     Divider()
@@ -45,7 +45,7 @@ struct EpisodeDetailsView: View {
                         Text("Episode:")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading)
-                        Text("\(episode.getEpisode())")
+                        Text("\(episode.episodeInSeason)")
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     Divider()
@@ -155,5 +155,7 @@ private let testEpisode = GeneralEpisode(
         "https://rickandmortyapi.com/api/character/394",
         "https://rickandmortyapi.com/api/character/395",
         "https://rickandmortyapi.com/api/character/435"
-    ]
+    ],
+    season: "1",
+    episodeInSeason: "1"
 )
