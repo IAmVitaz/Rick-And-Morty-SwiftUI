@@ -12,7 +12,7 @@ struct EpisodeResponceResult: Decodable {
     let results: [GeneralEpisode]
 }
 
-struct GeneralEpisode: Decodable, Identifiable {
+struct GeneralEpisode: Decodable, Identifiable, Hashable {
     let id: Int
     let name: String
     let air_date: String
@@ -97,4 +97,29 @@ func getEpisode(episodeCode: String) -> String {
     let range = startIndex..<endIndex
     let substring = episodeCode[range]
     return String(substring)
+}
+
+func getEpisodesArray(listOfGeneralEpisodes: [GeneralEpisode]) -> [EpisodeObject] {
+    var episodeObjects: [EpisodeObject] = []
+    
+    for episode in listOfGeneralEpisodes {
+        let season = "Season \(episode.season)"
+        let currentSeason = episodeObjects.filter{ $0.season == season }
+        if (currentSeason.isEmpty) {
+            episodeObjects.append(EpisodeObject(season: season, episodes: [episode]))
+        } else {
+            if let index = episodeObjects.firstIndex(where: {$0.season == season}) {
+                var newElement = episodeObjects[index]
+                newElement.episodes.append(episode)
+                episodeObjects[index] = newElement
+            }
+        }
+    }
+    return episodeObjects
+}
+
+struct EpisodeObject: Identifiable {
+    let id = UUID()
+    let season: String
+    var episodes: [GeneralEpisode]
 }

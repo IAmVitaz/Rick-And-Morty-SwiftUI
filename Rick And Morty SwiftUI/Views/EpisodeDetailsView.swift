@@ -10,7 +10,7 @@ import SwiftUI
 struct EpisodeDetailsView: View {
     
     let episode: GeneralEpisode
-    @ObservedObject var characterNetworkManager = CharacterNetworkManager()
+    @StateObject var characterNetworkManager = CharacterNetworkManager()
     
     @State private var characterInEpisodeSelected: GeneralCharacter? = nil
     

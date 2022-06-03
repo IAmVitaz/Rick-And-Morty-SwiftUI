@@ -10,7 +10,9 @@ import SwiftUI
 struct CharacterDetailsView: View {
     
     let character: GeneralCharacter
-    @ObservedObject var episodeNetworkManager = EpisodeNetworkManager()
+    @StateObject var episodeNetworkManager = EpisodeNetworkManager()
+    
+    @State private var episodeInCharacterSelected: GeneralEpisode? = nil
     
     var body: some View {
         ScrollView(.vertical) {
@@ -111,19 +113,30 @@ struct CharacterDetailsView: View {
                             Text("Appeared in:")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading)
-                            ForEach(character.getEpisodesArray()) { episodeObject in
+                                .onAppear{
+                                    print(episodeNetworkManager.episodeObjectArray)
+                                }
+                            ForEach(episodeNetworkManager.episodeObjectArray) { episodeObject in
                                 Section(header: Text(episodeObject.season)) {
                                     FlexibleView(
                                         data: episodeObject.episodes,
                                         spacing: 8,
                                         alignment: .leading
                                     ) { episode in
-                                        Text(verbatim: episode.episodeInSeason)
-                                            .padding(8)
-                                            .background(
-                                                RoundedRectangle(cornerRadius: 16)
-                                                    .fill(Color.blue.opacity(0.2))
-                                            )
+                                        Button(action: {
+                                            self.episodeInCharacterSelected = episode
+                                        }) {
+                                            Text(verbatim: "Episode \(episode.episodeInSeason)")
+                                                .padding(8)
+                                                .foregroundColor(.black)
+                                                .background(
+                                                    RoundedRectangle(cornerRadius: 16)
+                                                        .fill(Color.blue.opacity(0.2))
+                                                )
+                                        }
+                                        .sheet(item: self.$episodeInCharacterSelected, content: { episode in
+                                            EpisodeDetailsView(episode: episode)
+                                        })
                                     }
                                     .padding(.horizontal, 16)
                                 }

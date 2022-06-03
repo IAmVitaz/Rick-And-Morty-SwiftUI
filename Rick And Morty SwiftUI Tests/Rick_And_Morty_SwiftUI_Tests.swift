@@ -22,13 +22,20 @@ class Rick_And_Morty_SwiftUI_Tests: XCTestCase {
     
     func testCharacterListGeneratedCorrectlyForGeneralEpisode() {
         // given
-        let episode = GeneralEpisode(id: 1, name: "Test", air_date: "December 2, 2013", episode: "S01E01",
-                                    characters: ["https://rickandmortyapi.com/api/character/1",
-                                                  "https://rickandmortyapi.com/api/character/2",
-                                                  "https://rickandmortyapi.com/api/character/35",
-                                                  "https://rickandmortyapi.com/api/character/38",
-                                                  "https://rickandmortyapi.com/api/character/62",
-                                                  "https://rickandmortyapi.com/api/character/92"])
+        let episode = GeneralEpisode(
+            id: 1,
+            name: "Test",
+            air_date: "December 2, 2013",
+            episode: "S01E01",
+            characters: ["https://rickandmortyapi.com/api/character/1",
+                          "https://rickandmortyapi.com/api/character/2",
+                          "https://rickandmortyapi.com/api/character/35",
+                          "https://rickandmortyapi.com/api/character/38",
+                          "https://rickandmortyapi.com/api/character/62",
+                          "https://rickandmortyapi.com/api/character/92"],
+            season: "1",
+            episodeInSeason: "1"
+        )
 
         // when
         let characterList = episode.getListOfCharacters()
@@ -39,8 +46,15 @@ class Rick_And_Morty_SwiftUI_Tests: XCTestCase {
     
     func testCharacterListGeneratedCorrectlyForGeneralEpisodeWithZeroCharacters() {
         // given
-        let episode = GeneralEpisode(id: 1, name: "Test", air_date: "December 2, 2013", episode: "S01E01",
-                                    characters: [])
+        let episode = GeneralEpisode(
+            id: 1,
+            name: "Test",
+            air_date: "December 2, 2013",
+            episode: "S01E01",
+            characters: [],
+            season: "1",
+            episodeInSeason: "1"
+        )
 
         // when
         let characterList = episode.getListOfCharacters()
@@ -48,6 +62,29 @@ class Rick_And_Morty_SwiftUI_Tests: XCTestCase {
         // then
         XCTAssertEqual(characterList, "", "List of characters is wrong")
     }
+    
+    func testEpisodeObjectListGeneratedCorrectlyForGeneralEpisodeWithOneEpisode() {
+        // given
+        let episodes = [GeneralEpisode(
+            id: 1,
+            name: "Test",
+            air_date: "December 2, 2013",
+            episode: "S01E01",
+            characters: [],
+            season: "1",
+            episodeInSeason: "1"
+        )]
+        
+
+        // when
+        let episodeObjectList = getEpisodesArray(listOfGeneralEpisodes: episodes)
+
+        // then
+        XCTAssertEqual(episodeObjectList.count, 1, "List of episode objects is wrong")
+        XCTAssertEqual(episodeObjectList[0].season, "Season 1", "List of episode objects is wrong")
+
+    }
+
 
     func testExample() throws {
         // This is an example of a functional test case.
