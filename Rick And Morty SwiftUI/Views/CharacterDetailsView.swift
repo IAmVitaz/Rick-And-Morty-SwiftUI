@@ -141,6 +141,8 @@ struct CharacterDetailsView: View {
                                     .padding(.horizontal, 16)
                                 }
                             }
+                            BannerAd(unitID: K.mainScreenBannerId)
+                                .padding(.vertical)
                         }
 
                     }

@@ -110,7 +110,9 @@ struct EpisodeDetailsView: View {
                                     })
                                 }
                             })
-                                                
+                        
+                        BannerAd(unitID: K.mainScreenBannerId)
+                            .padding(.vertical)
                     }
                 }
                 

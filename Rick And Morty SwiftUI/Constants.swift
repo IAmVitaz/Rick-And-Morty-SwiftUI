@@ -16,4 +16,7 @@ struct K {
         "Season 5" : 42,
         "Season 6" : 52
     ]
+    
+    static let mainScreenBannerId = "ca-app-pub-6087972977260982/9917609580"
+    //banner test id: ca-app-pub-3940256099942544/2934735716
 }
